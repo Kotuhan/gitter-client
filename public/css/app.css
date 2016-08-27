@@ -1,0 +1,35 @@
+.navbar-logo {
+  margin: 10px 20px 0px 10px;
+}
+
+.home {
+  padding-top: 100px;
+  text-align: center;
+}
+
+.home img {
+  height: 100px;
+}
+
+.mono {
+  font-family: Monaco, "Liberation Mono", Courier, monospace;
+}
+
+
+.room-icon {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+}
+
+.room-name {
+  display: inline-block;
+  padding-left: 5px;
+  vertical-align: middle;
+  margin: 5px 0 5px 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+}

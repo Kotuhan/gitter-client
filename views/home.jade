@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Gitter App
+    link(href='/css/app.css', rel='stylesheet')
+    script
+        var  rooms = !{JSON.stringify(rooms)}
+         var gitter = {
+         "userName": "#{user.username}",
+         "clientID": "#{clientId}",
+         "token": "#{token}",
+         "rooms": rooms
+         }
+         localStorage.setItem('gitter', JSON.stringify(gitter));
+        var gitter1 =  localStorage.getItem('gitter')
+  body
+    #root
+    script(src='/static/bundle.js')
