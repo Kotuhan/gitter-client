@@ -7,6 +7,11 @@ var config = require('./webpack.config')
 var compiler = webpack(config)
 
 var express         = require('express');
+var bodyParser      = require('body-parser')
+var methodOverride = require('method-override')
+var cookieParser = require('cookie-parser')
+var session = require('express-session')
+
 var passport        = require('passport');
 var OAuth2Strategy  = require('passport-oauth2');
 var request         = require('request');
@@ -60,18 +65,31 @@ app.use(webpackDevMiddleware(compiler, {
     publicPath: config.output.publicPath
 }))
 app.use(webpackHotMiddleware(compiler))
+app.use(methodOverride());
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
-app.use(express.json());
-app.use(express.urlencoded());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(express.static( __dirname + '/public'));
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(express.cookieParser());
-app.use(express.session({secret: 'keyboard cat'}));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({secret: 'keyboard cat'}));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(app.router);
+app.get("/home/*", function(req, res) {
+
+  gitter.fetchRooms(req.user, req.session.token, function(err, rooms) {
+    if (err) return res.send(500);
+
+    res.render(__dirname + '/views/home.jade', {
+      user: req.user,
+      token: req.session.token,
+      clientId: clientId,
+      rooms: rooms
+    });
+  });
+})
 
 
 // Passport Configuration

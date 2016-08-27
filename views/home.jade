@@ -4,6 +4,7 @@ html
     title Gitter App
     link(href='/css/app.css', rel='stylesheet')
     script
+        if(rooms){
         var  rooms = !{JSON.stringify(rooms)}
          var gitter = {
          "userName": "#{user.username}",
@@ -13,6 +14,7 @@ html
          }
          localStorage.setItem('gitter', JSON.stringify(gitter));
         var gitter1 =  localStorage.getItem('gitter')
+        }
   body
     #root
     script(src='/static/bundle.js')
