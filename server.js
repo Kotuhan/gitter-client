@@ -73,6 +73,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(app.router);
 
+
 // Passport Configuration
 
 passport.use(new OAuth2Strategy({
