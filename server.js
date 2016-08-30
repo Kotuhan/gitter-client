@@ -1,27 +1,37 @@
 /*jshint globalstrict:true, trailing:false, unused:true, node:true */
 "use strict";
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.config')
-var compiler = webpack(config)
+var webpack = require('webpack'),
+    webpackDevMiddleware = require('webpack-dev-middleware'),
+    webpackHotMiddleware = require('webpack-hot-middleware'),
+    config = require('./webpack.config'),
+    compiler = webpack(config)
 
-var express         = require('express');
-var bodyParser      = require('body-parser')
-var methodOverride = require('method-override')
-var cookieParser = require('cookie-parser')
-var session = require('express-session')
 
-var passport        = require('passport');
-var OAuth2Strategy  = require('passport-oauth2');
-var request         = require('request');
+// Setting up faye
+var http = require('http'),
+    faye = require('faye'),
+    bayeux = new faye.NodeAdapter({mount: '/faye', timeout: 45});
 
-var gitterHost    = process.env.HOST || 'https://gitter.im';
-var port          = process.env.PORT || 7000;
+
+// Express packages
+var express         = require('express'),
+    bodyParser      = require('body-parser'),
+    methodOverride = require('method-override'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session')
+
+// Auth packages
+var passport        = require('passport'),
+    OAuth2Strategy  = require('passport-oauth2'),
+    request         = require('request');
+
+
+var gitterHost    = process.env.HOST || 'https://gitter.im',
+    port          = process.env.PORT || 7000;
 
 // Client OAuth configuration
-var clientId      = '37eec08a27ee9f8d7eaef7c0db18de336a7e28b2'
-var clientSecret  = '7ca186f41eed07e578600733e8231588da33772e'
+var clientId      = '37eec08a27ee9f8d7eaef7c0db18de336a7e28b2',
+    clientSecret  = '7ca186f41eed07e578600733e8231588da33772e'
 
 // Gitter API client helper
 var gitter = {
@@ -72,13 +82,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(express.static( __dirname + '/public'));
+app.use("/faye", express.static(__dirname + '/faye'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(session({secret: 'keyboard cat'}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.get("/home/*", function(req, res) {
-
   gitter.fetchRooms(req.user, req.session.token, function(err, rooms) {
     if (err) return res.send(500);
 
@@ -157,4 +167,5 @@ app.get('/home', function(req, res) {
 });
 
 app.listen(port);
+bayeux.attach(app);
 console.log('Demo app running at http://localhost:' + port);

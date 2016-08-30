@@ -2,11 +2,11 @@ import React from 'react';
 import { Route, Redirect, IndexRoute } from 'react-router';
 
 import App from '../containers/App';
-import User from '../components/User'
+import Messages from '../components/Messages'
 
 export default (
   <Route path='/home' component={App}>
-      <IndexRoute component={App}/>
-      <Route path='/home/user' component={User} />
+      <Route path='/home/:chatId' component={Messages} />
+      <Route path='/home/:chatId/:name' component={Messages} />
   </ Route>
 );
