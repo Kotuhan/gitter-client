@@ -10,3 +10,7 @@
 This app should work with:
 npm  v3.10.2 
 node v6.2.2
+
+## License
+
+MIT © [Denysiuk Bohdan](https://github.com/Kotuhan)
