@@ -8,7 +8,7 @@
 
 
 This app should work with:
-npm  v3.10.2 
+npm  v3.10.2 and
 node v6.2.2
 
 ## License
