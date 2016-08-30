@@ -25,13 +25,19 @@ class App extends Component {
   }
 
   handleSendMessage(){
-    console.log('visited');
-    var authToken = '011fbefd3c1183d5fdf6a8218cb0966d99158140'
-    var roomId = '57bef95940f3a6eec06148cc'
-    var message = $('.message-text').val();
+
+    let chatId = '/'+this.props.params.chatId ;
+    if(this.props.params.name) chatId+= "/"+this.props.params.name
+
+    let authToken = JSON.parse(localStorage.getItem('gitter')).token
+    let roomId =  JSON.parse(localStorage.getItem('gitter')).rooms
+    .find( room => {
+      return  room.url === chatId
+    })
+    var message = $('.message-text').val()
 
     var result = fetch(
-        'https://api.gitter.im/v1/rooms/' + roomId + '/chatMessages?access_token=' + authToken,
+        'https://api.gitter.im/v1/rooms/' + roomId.id + '/chatMessages?access_token=' + authToken,
         {
             method: 'POST',
             headers: {
@@ -53,6 +59,8 @@ class App extends Component {
         .catch(function(err) {
             console.log('Error fetching:', err);
         });
+
+        //временный костыль до подключения faye
         setTimeout(() => {this.handleRefreshClick()}, 1000)
 
 
@@ -64,7 +72,6 @@ class App extends Component {
   }
 
   handleRefreshClick() {
-    console.log('i`mhere');
     const { dispatch, selectedGitter } = this.props
     dispatch(invalidateGitter(selectedGitter))
     dispatch(fetchMessagesIfNeeded(selectedGitter))

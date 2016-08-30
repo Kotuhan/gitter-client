@@ -1,13 +1,12 @@
-# Gitter Demo App
+# Gitter App
 
 ## HOWTO
 
-1. Create a new app at [https://developer.gitter.im](https://developer.gitter.im). The ```Redirect URL``` should be ```http://localhost:7000/login/callback```
-2. Run npm install
-3. Launch the demo app with:
+1. Run npm install
+2. Run npm start
+3. Go to URL http://localhost:7000/
 
-```
-$ GITTER_KEY=<your-app-key> GITTER_SECRET=<your-app-secret> node app.js
-```
 
-Happy Hacking!
+This app should work with:
+npm  v3.10.2 
+node v6.2.2

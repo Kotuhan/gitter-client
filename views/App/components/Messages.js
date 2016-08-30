@@ -19,7 +19,3 @@ export default class Messages extends Component {
     )
   }
 }
-
-Messages.propTypes = {
-  messages: PropTypes.array.isRequired
-}

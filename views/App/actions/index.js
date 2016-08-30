@@ -49,9 +49,9 @@ function fetchMessages(gitter) {
     .find( room => {
       return room.url === gitter
     })
+    let token = JSON.parse(localStorage.getItem('gitter')).token
 
-
-    return fetch('https://api.gitter.im/v1/rooms/' + room.id + '/chatMessages?limit=20&access_token=011fbefd3c1183d5fdf6a8218cb0966d99158140')
+    return fetch('https://api.gitter.im/v1/rooms/' + room.id + '/chatMessages?limit=20&access_token='+token)
 
       .then(response => response.json())
       .then((json) => {
